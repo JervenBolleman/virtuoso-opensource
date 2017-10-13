@@ -282,9 +282,9 @@ public class VirtuosoStatement implements Statement
    public void finalize() throws Throwable
    {
       close();
-      // Remove the metaData
-      if(metaData != null)
-         metaData.close();
+      // Metadata has it's own finalizer method and we should avoid cycles in finalizers
+      //if(metaData != null)
+      //   metaData.close();
    }
 
    // --------------------------- JDBC 1.0 ------------------------------
