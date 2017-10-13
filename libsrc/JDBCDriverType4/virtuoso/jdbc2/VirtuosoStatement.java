@@ -275,17 +275,14 @@ public class VirtuosoStatement implements Statement
 	   return null;
        }
    }
-
-   /**
-    * Method runs when the garbage collector want to erase the object
-    */
-   public void finalize() throws Throwable
-   {
-      close();
-      // Metadata has it's own finalizer method and we should avoid cycles in finalizers
+// Finalizer makes no sense as close ends up doing no work at all, while metadata has its own finalizer
+//  public void finalize() throws Throwable
+// {
+//      close();
+//      // Metadata has it's own finalizer method and we should avoid cycles in finalizers
       //if(metaData != null)
       //   metaData.close();
-   }
+//   }
 
    // --------------------------- JDBC 1.0 ------------------------------
    /**

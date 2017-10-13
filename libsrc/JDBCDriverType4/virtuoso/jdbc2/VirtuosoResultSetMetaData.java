@@ -103,14 +103,11 @@ public class VirtuosoResultSetMetaData implements ResultSetMetaData
          columnsMetaData.insertElementAt(col,i);
       }
    }
-
-   /**
-    * Method runs when the garbage collector want to erase the object
-    */
-   public void finalize() throws Throwable
-   {
-      close();
-   }
+//No point in running a finalizer it is only nulling fields
+ //  public void finalize() throws Throwable
+ //  {
+ //     close();
+ //  }
 
    // --------------------------- JDBC 1.0 ------------------------------
    /**
