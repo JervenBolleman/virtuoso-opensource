@@ -75,11 +75,6 @@ public class VirtuosoConnectionPoolDataSource
     private long  propEnforceTime = 0;
 
 
-  public synchronized void finalize () throws Throwable {
-    close ();
-  }
-
-
   public VirtuosoConnectionPoolDataSource() {
     dataSourceName = "VirtuosoConnectionPoolDataSourceName";
     initLock = new Object();
@@ -678,6 +673,12 @@ public class VirtuosoConnectionPoolDataSource
       cpds = _cpds;
     }
 
+    //Finalizer should do minimum work.
+    //and avoid as many locks as possible
+    //Therefore move the finalizer from the outer to this inner class
+    public void finalize () throws Throwable {
+      clear();
+    }
 
     private void tryAddConnection(String conn_url, String connKey, Properties info) {
       VirtuosoConnection conn = null;
