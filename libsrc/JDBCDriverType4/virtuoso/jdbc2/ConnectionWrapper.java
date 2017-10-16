@@ -88,8 +88,18 @@ public class ConnectionWrapper implements java.sql.Connection {
 #endif
   }
 
-  public void finalize () throws Throwable {
-    close();
+  /**
+   * This finalizer sends a closeEvent to a PooledConnection on going out of 
+   * scope.
+   */
+  public void finalize () throws Throwable 
+  { 
+    //we take a local variable depending on the JVM memory model with respect to
+    //pointers to ensure our null pointer check is valid during this entire 
+    //method and we can avoid a lock/synchronized block
+    VirtuosoPooledConnection pconnRef=pconn;
+    if (pconnRef != null)
+        pconnRef.sendCloseEvent();
   }
 
   // reuse the physical connection

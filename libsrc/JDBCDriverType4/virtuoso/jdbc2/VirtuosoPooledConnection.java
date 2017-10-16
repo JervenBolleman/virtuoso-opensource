@@ -74,14 +74,13 @@ public class VirtuosoPooledConnection implements PooledConnection, Cloneable {
     conn.pooled_connection = this;
   }
 
-
-  public synchronized void finalize () throws Throwable {
-    try {
-      close();
-    } catch(Exception e) { }
-    listeners.clear();
+  public synchronized void finalize() throws Throwable
+  {
+    close();
+//    Let objects go out of scope them selves do not clear, we are not doing
+//    C++ reference counting
+//    listeners.clear();
   }
-
 
   protected synchronized Object clone() {
     try {
