@@ -330,6 +330,8 @@ public class VirtuosoPreparedStatement extends VirtuosoStatement implements Prep
     * @exception virtuoso.jdbc2.VirtuosoException If a database access error occurs.
     * @see java.sql.Statement#close
     */
+   
+   @Override
    public void close() throws VirtuosoException
    {
 #if JDK_VER >= 16
@@ -377,6 +379,16 @@ public class VirtuosoPreparedStatement extends VirtuosoStatement implements Prep
 	   }
        }
    }
+
+   /**
+    * This finalizer makes sure a statement is returned to the cache and or 
+    * remove the result future from the connection.
+    * @throws Throwable 
+    */
+    public void finalize() throws Throwable 
+    {
+        close();
+    }
 
    /**
     * Sets the designated parameter to the given input stream, which will have
